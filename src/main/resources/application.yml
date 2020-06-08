@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost:3306/insight?serverTimezone=Asia/Seoul&useUnicode=true?characterEncoding=utf-8
+      username: root
+      password: 1234
+      connection-test-query: select 1
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
