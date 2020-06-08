@@ -88,3 +88,24 @@ Spring boot Study project
 
 ### log4jdbc 설정
 https://twofootdog.tistory.com/52 참고
+
+---
+### 스프링 MVC 요청의 라이프사이클
+![스프링 MVC 요청의 라이프사이클](https://stargatex.files.wordpress.com/2015/12/springmvcrequestlifecycle.jpg)
+- 출처 : https://stargatex.wordpress.com/2015/12/08/spring-mvc-request-lifecycle/
+
+### 필터와 인터셉터의 차이
+- 필터는 디스패치 서블릿 앞 단에서 동작 / 인터셉터는 디스패처 서블릿에서 핸들러 컨트롤러로 가기 전에 동작
+- 필터는 J2EE 표준 스펙에 있는 서블릿의 기능 중 일부 / 인터셉터는 스프링 프레임워크에서 제공되는 기능 -> 스프링 빈 사용 가능
+- 일반적으로 문자열 인코딩과 같은 웹 전반에서 사용되는 기능은 필터로 구현
+- 클라이언트의 요청과 관련이 있는 여러가지 처리(예를 들어 로그인이나 인증, 권한 등)는 인터셉터로 처리
+
+### HandlerInterceptorAdapter로 인터셉터 구현하기
+- 스프링에서 인터셉터는 HandlerInterceptorAdapter 클래스를 상속받아서 구현
+- HandlerInterceptorAdapter는 다음의 세가지 메서드를 제공함
+| 메서드 | 역할 |
+| --- | --- |
+| preHandle | 컨트롤러 실행 전에 수행 |
+| postHandle | 컨트롤러 수행 후 결과를 뷰로 보내기 전에 수행됨 | 
+| afterCompletion | 뷰의 작업까지 완료된 후 수행 |
+
