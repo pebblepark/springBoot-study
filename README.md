@@ -131,3 +131,69 @@ https://twofootdog.tistory.com/52 참고
 | 포인트컷 (Pointcut) | 어드바이스를 적용할 조인포인트를 선별하는 과정이나 그 기능을 정의한 모듈을 의미, 정규표현식이나 AspectJ의 문법을 이용해서 어떤 조인포인트를 사용할 것인지 결정 |
 | 타깃 (Target) | 어드바이스를 받을 대상 의미 |
 | 위빙 (Weaving) | 어드바이스를 적용하는 것을 의미, 즉, 공통 코드를 원하는 대상에 삽입하는 것 | 
+
+### AOP의 주요 개념
+#### 어드바이스
+- 관점의 구현체로 조인포인트에 삽입되어 동작하는 것
+- 스프링에서 사용하는 어드바이스는 동작하는 시점에 따라 다섯 종류로 구분
+
+| 종류 | 어노테이션 | 설명 |
+| --- | --- | --- |
+| Before Advice | @Before | 대상 메서드가 실행되기 전에 적용할 어드바이스를 정의 |
+| After returning Advice | @AfterReturning | 대상 메서드가 성공적으로 실행되고 결괏값을 반환한 후 적용할 어드바이스 정의 |
+| After throwing Advice | @AfterThrowing | 대상 메서드에서 예외가 발생했을 때 적용할 어드바이스 정의, try/catch문의 catch와 비슷한 역할 |
+| After Advice | @After | 대상 메서드의 정상적인 수행 여부와 상관없이 무조건 실행되는 어드바이스 정의, finally와 비슷한 역할(예외가 발생해도 무조건 실행) |
+| Around Advice | @Around | 대상 메서드의 호출 전후, 예외 발생 등 모든 시점에 적용할 수 있는 어드바이스 정의, 가장 범용적으로 사용 가능 |
+
+#### 포인트컷
+- 어드바이스를 적용할 조인포인트를 선별하는 과정이나 그 기능을 정의한 모듈 의미
+- 정규표현식이나 AspectJ의 문법을 이용해 어떤 조인포인트를 사용할 것인지 결정
+
+  ##### execution
+  - 가장 대표적이고 강력한 지시자
+  - 접근제어자, 리턴 타입, 타입패턴, 메서드, 파라미터 타입, 예외 타입 등을 조합해서 가장 정교한 포인트컷 만들기 가능
+  - * 는 모든 값 - ex) select* -> select로 시작하는 모든 메서드
+  - ..은 0개 이상 - 파라미터, 메서드, 패키지 등 모든 것을 의미
+  - 패키지 구조 표현 - 하위의 모든 패키지 의미, 파라미터를 표현 - 파라미터 개수와 관계없이 모든 파라미터
+  - and와 or를 조합해서 표현식을 조합 가능함 (&&와 ||로도 표현 가능)
+  - 예시
+
+  ```
+  execution(void select*(..))           // 1
+  execution(* board.controller.*())     // 2
+  execution(* board.controller.*(..))   // 3
+  execution(* board..select*(*))        // 4
+  execution(* board..select*(*,*))      // 5
+  ```
+
+    - 1 : 리턴 타입이 void이고 메서드 이름이 select로 시작, 파라미터가 0개 이상인 모든 메서드가 호출될 때
+    - 2 : board.controller 패키지 밑에 파라미터가 없는 모든 메서드가 호출될 때
+    - 3 : board.controller 패키지 밑에 파라미터가 0개 이상인 모든 메서드가 호출될 때
+    - 4 : board 패키지의 모든 하위 패키지에 있는 select로 시작하고 파라미터가 한 개인 모든 프로젝트가 호출될 때
+    - 5 : board 패키지의 모든 하위 패키지에 있는 select로 시작하고 파라미터가 두 개인 모든 프로젝트가 호출될 때
+      
+  ##### within
+  - 특정 타입에 속하는 메서드를 포인트컷으로 설정
+  - 예시
+  
+  ```
+  within(board.service.boardServiceImpl)  // 1
+  within(board.service.*ServiceImpl)      // 2
+  ```
+  
+    - 1 : board.service 패키지 밑에 있는 boardServiceImpl 클래스의 메서드가 호출될 때
+    - 2 : board.service 패키지 밑에 있는 ServiceImpl이라는 이름으로 끝나는 메서드가 호출될 때
+    
+  ##### bean
+  - 스프링의 빈 이름의 패턴으로 포인트컷 설정
+  - 예시
+  
+  ```
+  bean(boardServiceImpl)    // 1
+  bean(*ServiceImpl)        // 2
+  ```
+  
+    - 1 : boardServiceImpl이라는 이름을 가진 빈의 메서드가 호출될 때
+    - 2 : ServiceImpl이라는 이름으로 끝나는 빈의 메서드가 호출될 때
+### AOP 관련 참고
+https://galid1.tistory.com/498
