@@ -2,7 +2,8 @@ package com.example.springboot.board.controller;
 
 import com.example.springboot.board.dto.BoardDto;
 import com.example.springboot.board.service.BoardService;
-import lombok.extern.log4j.Log4j2;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,37 +12,47 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-@Log4j2
 @Controller
 public class BoardController {
+    private Logger log = LoggerFactory.getLogger(this.getClass());
+    // lombok 사용시 @Slf4j 어노테이션을 사용하면 따로 로거를 생성할 필요 x
 
     @Autowired
     private BoardService boardService;
 
+    @RequestMapping("/logger/test")
+    public void loggerTest() {
+        log.trace("trace -- Hello world.");
+        log.debug("debug -- Hello world.");
+        log.info("info -- Hello world.");
+        log.warn("warn -- Hello world.");
+        log.error("error -- Hello world.");
+    }
+
+    @RequestMapping("/error")
+    public void error() {
+        int i= 10/0;
+    }
+
     @RequestMapping("/board/openBoardList.do")
     public ModelAndView openBoardList() throws Exception{
+        log.debug("openBoardList");
 
         ModelAndView mv = new ModelAndView("board/boardList");
 
         List<BoardDto> list = boardService.selectBoardList();
         mv.addObject("list", list);
-        list.forEach(board -> {
-            log.info(board.toString());
-        });
 
         return mv;
     }
 
     @RequestMapping("/board/openBoardWrite.do")
     public String openBoardWrite() throws Exception{
-        log.info("board/openBoardWrite.do");
         return "board/boardWrite";
     }
 
     @RequestMapping("/board/insertBoard.do")
     public String insertBoard(BoardDto board) throws Exception{
-        log.info("/board/insertBoard.do");
-        log.info(board.toString() + "----------------------------------------------------------------------------------------");
         boardService.insertBoard(board);
         return "redirect:/board/openBoardList.do";
     }

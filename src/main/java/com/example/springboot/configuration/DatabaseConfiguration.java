@@ -11,12 +11,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
-import java.beans.ConstructorProperties;
 
 @Configuration
 @PropertySource("classpath:/application.yml")
+@EnableTransactionManagement    // 스프링에서 제공하는 어노테이션 기반 트랜잭션 활성화
 public class DatabaseConfiguration {
     /* PropertySource 설정 파일 위치 지정*/
 
@@ -29,6 +32,12 @@ public class DatabaseConfiguration {
         return new HikariConfig();
     }
     /* spring.datasource.hikari 로 시작하는 설정을 이용해서 히카리CP의 설정파일 생성 */
+
+    @Bean
+    @ConfigurationProperties(prefix = "mybatis.configuration")
+    public org.apache.ibatis.session.Configuration mybatisConfig() {
+        return new org.apache.ibatis.session.Configuration();
+    }
 
     @Bean
     public DataSource dataSource() throws Exception {
@@ -52,8 +61,10 @@ public class DatabaseConfiguration {
     }
 
     @Bean
-    @ConfigurationProperties(prefix = "mybatis.configuration")
-    public org.apache.ibatis.session.Configuration mybatisConfig() {
-        return new org.apache.ibatis.session.Configuration();
+    public PlatformTransactionManager transactionManager() throws Exception{
+        // 스프링이 제공하는 트랜잭션 매니저 등록
+        return new DataSourceTransactionManager(dataSource());
     }
+
+
 }
