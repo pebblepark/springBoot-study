@@ -59,6 +59,8 @@ Spring boot Study project
     </root>
 </configuration>
 ```
+<code>* logger name에는 패키지명을 적어서 설정을 제어한다 *</code>
+  
 ### Logback의 주요 구성요소
 - appender는 로그를 어디에 출력할지 (콘솔, 파일 기록, DB 저장 등) 결정하는 역할
 - encoder는 appender에 포함되어 출력할 로그를 지정한 형식으로 변환하는 역할
