@@ -1,12 +1,24 @@
 package com.example.springboot.configuration;
 
 import com.example.springboot.interceptor.LoggerInterceptor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfiguration implements WebMvcConfigurer {
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+        commonsMultipartResolver.setDefaultEncoding("UTF-8");
+        commonsMultipartResolver.setMaxUploadSizePerFile(5 * 1024 * 1024);  // 업로드되는 파일의 크기 5MB로 제한
+        return commonsMultipartResolver;
+    }
+
+
     // 스프링에서 인터셉터 구현 WebMvcConfigurerAdapter 또는 WebMvcConfigurer
     @Override
     public void addInterceptors(InterceptorRegistry registry){

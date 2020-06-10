@@ -48,6 +48,10 @@
     <input type="hidden" name="boardIdx" th:value="${board.boardIdx}">
     </form>
 
+    <div class="file_list">
+        <a th:each="list : ${board.fileList}" th:text="|${list.originalFileName}(${list.fileSize} kb)|"></a>
+        <!-- thymeleaf에서는 | 기호를 사용해서 변수와 고전된 문자열 혼합해서 출력 가능 -->
+    </div>
     <input type="button" id="list" class="btn" value="목록으로">
     <input type="button" id="edit" class="btn" value="수정하기">
     <input type="button" id="delete" class="btn" value="삭제하기">

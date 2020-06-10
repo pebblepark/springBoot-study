@@ -18,6 +18,41 @@
 		]]>
 	</select>
 
+	<!-- useGeneratedKeys 속성은 DBMS가 자동 생성키를 지원할 경우에 사용 가능 (MySQL의 경우 Auto-Increment) -->
+	<!-- keyProperty는 useGeneratedKeys나 selectKey의 하위 엘리멘트에 의해 리턴되는 키 의미-->
+	<insert id="insertBoardFileList" parameterType="com.example.springboot.board.dto.BoardFileDto">
+		<![CDATA[
+			INSERT INTO t_file
+			(
+				board_idx, original_file_name, stored_file_path, file_size, creator_id, created_datetime
+			)
+			VALUES
+		]]>
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.boardIdx},
+			#{item.originalFileName},
+			#{item.storedFilePath},
+			#{item.fileSize},
+			'admin',
+			NOW()
+			)
+		</foreach>
+	</insert>
+
+	<select id="selectBoardFileList" parameterType="int" resultType="com.example.springboot.board.dto.BoardFileDto">
+		<![CDATA[
+			SELECT
+				idx, board_idx, original_file_name,
+				FORMAT(ROUND(file_size / 1024), 0) AS file_size
+			FROM
+				t_file
+			WHERE
+				board_idx = #{boardIdx}
+				AND deleted_yn = 'N'
+		]]>
+	</select>
+
     <insert id="insertBoard" parameterType="com.example.springboot.board.dto.BoardDto" useGeneratedKeys="true" keyProperty="boardIdx">
 		<![CDATA[
 			INSERT INTO t_board

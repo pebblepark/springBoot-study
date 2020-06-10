@@ -1,6 +1,7 @@
 package com.example.springboot.board.mapper;
 
 import com.example.springboot.board.dto.BoardDto;
+import com.example.springboot.board.dto.BoardFileDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,4 +19,8 @@ public interface BoardMapper {
     void updateBoard(BoardDto board) throws Exception;
 
     void deleteBoard(int boardIdx) throws Exception;
+
+    void insertBoardFileList(List<BoardFileDto> list) throws Exception;
+
+    List<BoardFileDto> selectBoardFileList(int boardIdx) throws Exception;
 }
