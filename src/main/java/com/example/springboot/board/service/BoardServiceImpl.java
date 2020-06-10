@@ -82,4 +82,9 @@ public class BoardServiceImpl implements BoardService {
     public void deleteBoard(int boardIdx) throws Exception {
         boardMapper.deleteBoard(boardIdx);
     }
+
+    @Override
+    public BoardFileDto selectBoardFileInformation(int idx, int boardIdx) throws Exception {
+        return boardMapper.selectBoardFileInformation(idx, boardIdx);
+    }
 }	

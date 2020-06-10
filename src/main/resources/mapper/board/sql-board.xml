@@ -53,6 +53,21 @@
 		]]>
 	</select>
 
+	<select id="selectBoardFileInformation" parameterType="map" resultType="com.example.springboot.board.dto.BoardFileDto">
+		<![CDATA[
+			SELECT
+				original_file_name,
+				stored_file_path,
+				file_size
+			FROM
+				t_file
+			WHERE
+				idx = #{idx}
+				AND board_idx = #{boardIdx}
+				AND deleted_yn = 'N'
+		]]>
+	</select>
+
     <insert id="insertBoard" parameterType="com.example.springboot.board.dto.BoardDto" useGeneratedKeys="true" keyProperty="boardIdx">
 		<![CDATA[
 			INSERT INTO t_board
