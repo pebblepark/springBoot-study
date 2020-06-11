@@ -11,7 +11,13 @@ spring:
   resources:
     cache:
       period: 0
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
 
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
+
