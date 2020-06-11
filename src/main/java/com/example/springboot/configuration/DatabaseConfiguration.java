@@ -16,6 +16,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @PropertySource("classpath:/application.yml")
@@ -37,6 +38,11 @@ public class DatabaseConfiguration {
     @ConfigurationProperties(prefix = "mybatis.configuration")
     public org.apache.ibatis.session.Configuration mybatisConfig() {
         return new org.apache.ibatis.session.Configuration();
+    }
+
+    @ConfigurationProperties(prefix = "spring.jpa")
+    public Properties hibernateConfig() {
+        return new Properties();
     }
 
     @Bean
