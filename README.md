@@ -247,3 +247,55 @@ https://galid1.tistory.com/498
 | GET | Read | 해당 URI의 리소스 조회 |
 | PUT | Update | 해당 URI의 리소스 수정 |
 | DELETE | Delete | 해당 URI의 리소스 삭제 | 
+
+---
+### JPA란?
+- JPA(Java Persistence API)란 자바 객체와 데이터베이스 테이블 간의 매핑을 처리하는 ORM(Object Relational Mapping) 기술의 표준
+- ORM을 단순하게 이야기하면 객체와 관계를 설정하는 것
+- ORM은 객체와 관계형 데이터베이스를 매핑시킨다는 개념 -> 구현하기 위한 표준 JPA
+- JPA를 구현한 제품이나 프레임퉈크로 하이버네이트, 이클립스링크 등이 있음 -> JPA 구현체를 JPA 프로바이더라고 함
+
+### JPA의 장점
+1. 개발이 편리함
+2. 데이터베이스에 독립적인 개발이 가능함
+3. 유지보수가 쉬움
+
+### JPA의 단점
+1. 학습 곡선이 큼
+2. 특정 데이터베이스의 기능을 사용할 수 없음
+3. 객체지향 설계가 필요함
+
+### 스프링 데이터 JPA란?
+- JPA를 스프링에서 쉽게 사용할 수 있도록 해주는 라이브러리
+- Repository라는 인터페이스를 제공함
+
+### 스프링 데이터 JPA 리포지터리 인터페이스
+![리포지터리 구조](https://lh3.googleusercontent.com/proxy/tck2GN9LLQaA_BCvddlu1jp6GSobRy0hugefyEAFhrxpZ7dPue0GoZUaDSct_oif-EmrkFAGb0X3knHa65wkBe81pfLBa__iG2G7xbifpvLs7BudyUV99rZiJ9u9tyDbfRGD2f04_fkjhZuC7S1hGBVuCT-3q_Xy8KJM2lDsbvyhOOWArhJ-0-hGxA196Dn15tdnfWhm71zXdDobDWlXOHI6UzbwBXW0jCvOvGndKcO9-b2xz1GhyoUjQL1ElsW-L11SrLdGDH4FP7fad7mvUUpWk0lC2yPkGWH0wt702FYe1ErR5RyHFMf2CmOoocThnPeVVYNd4e7S7JV5sIMURrxRnJtNP2ekKpvESaHhjcjK9mjhQCxus2BBaU9i8ty9ZbIm)
+> <small>출처 : [[JPA] JpaRepository 인터페이스와 CrudRepository - 네이버 블로그](https://m.blog.naver.com/PostView.nhn?blogId=writer0713&logNo=221587319282&proxyReferer=https:%2F%2Fwww.google.com%2F) </small>
+
+### 쿼리 메서드
+- https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#reference
+
+### @Query 사용하기
+- 메서드 이름이 복잡하거나 쿼리 메서드로 표현하기 힘들때 @Query 어노테이션으로 쿼리 직접 작성 가능
+- 이때 쿼리는 JPQL이나, 데이터베이스에 맞는 SQL 쿼리 이용 가능
+- @Query어노테이션을 사용한 JPQL 작성
+    - 파라미터를 표시하는 방식의 차이
+        ``` java
+       @Query("SELECT file FROM BoardFileEntity file WHERE board_idx = ?1 AND idx = ?2")
+       BoardFileEntity findBoardFile(int boardIdx int idx);    // 1
+       
+       @Query("SELECT file FROM BoardFileEntity file WHERE board_idx = :boardIdx AND idx = :idx")
+       BoardFileEntity findBoardFile(@Param("boardIdx") int boardIdx, @Param("idx") int idx);  // 2
+        ```
+      - 1: [?숫자] 형식으로 파라미터 지정
+        - 파라미터 순서대로 각각 ?1, ?2에 할당됨
+        - 변수의 개수가 증가하면 숫자의 개수도 증가
+      - 2: :[변수이름]으로 파라미터 지정
+        - 변수이름은 메서드의 @Param 어노테이션에 대응됨
+        - :boardIdx의 boardIdx 변수는 @Param("boardIdx") 어노테이션이 있는 메서드의 파라미터 사용함    
+      - *일반적으로는 두번째 방식 사용함*
+      
+- JPQL을 작성할 때 조심해야할 사항 
+    - 쿼리의 FROM 절에 데이터베이스의 테이블 이름이 아니라 검색하려는 엔티티의 이름을 사용한다는 것
+    
