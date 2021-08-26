@@ -270,7 +270,7 @@ https://galid1.tistory.com/498
 - Repository라는 인터페이스를 제공함
 
 ### 스프링 데이터 JPA 리포지터리 인터페이스
-![리포지터리 구조](https://lh3.googleusercontent.com/proxy/tck2GN9LLQaA_BCvddlu1jp6GSobRy0hugefyEAFhrxpZ7dPue0GoZUaDSct_oif-EmrkFAGb0X3knHa65wkBe81pfLBa__iG2G7xbifpvLs7BudyUV99rZiJ9u9tyDbfRGD2f04_fkjhZuC7S1hGBVuCT-3q_Xy8KJM2lDsbvyhOOWArhJ-0-hGxA196Dn15tdnfWhm71zXdDobDWlXOHI6UzbwBXW0jCvOvGndKcO9-b2xz1GhyoUjQL1ElsW-L11SrLdGDH4FP7fad7mvUUpWk0lC2yPkGWH0wt702FYe1ErR5RyHFMf2CmOoocThnPeVVYNd4e7S7JV5sIMURrxRnJtNP2ekKpvESaHhjcjK9mjhQCxus2BBaU9i8ty9ZbIm)
+![리포지터리 구조](https://user-images.githubusercontent.com/59855468/130984322-e74070fc-687f-4137-9bdd-8e0ebc98ee9e.png)
 > <small>출처 : [[JPA] JpaRepository 인터페이스와 CrudRepository - 네이버 블로그](https://m.blog.naver.com/PostView.nhn?blogId=writer0713&logNo=221587319282&proxyReferer=https:%2F%2Fwww.google.com%2F) </small>
 
 ### 쿼리 메서드
